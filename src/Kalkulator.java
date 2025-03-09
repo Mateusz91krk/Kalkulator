@@ -43,17 +43,23 @@ public class Kalkulator {
         btnEquals.setBounds(160, 230, 60, 40); // "=" pod przyciskiem "9"
         frame.add(btnEquals);
 
-        //Tworzenie i rozmieszczanie przycisków cyfr
+        //Tworzenie i rozmieszczanie przycisków cyfr (1-9)
         for (int i = 1; i < 10; i++) {
             cyfry[i] = new JButton(String.valueOf(i));
             cyfry[i].setBounds(pozycjeCyfr[i - 1][0], pozycjeCyfr[i -1][1], 60, 40);
             frame.add(cyfry[i]);
         }
 
-        // Tworzenie przycisku "0"
+        // Tworzenie przycisku "0" przed dodawaniem ActionListener
         cyfry[0] = new JButton("0");
         cyfry[0].setBounds(pozycjeCyfr[9][0], pozycjeCyfr[9][1], 60, 40); // "0" na dole, po lewej
         frame.add(cyfry[0]);
+
+        // Teraz cyfra "0" istnieje, więc można dodać ActionListener
+        for (int i = 0; i < 10; i++) {
+            int numer = i; // Potrzebne do poprawnego działania w lambdzie
+            cyfry[i].addActionListener(e -> poleTekstowe.setText(poleTekstowe.getText() + numer));
+        }
 
         // Tworzenie i rozmieszczenie przycisków operacji matematycznych
         for (int i = 0; i < operacje.length; i++) {
@@ -88,7 +94,7 @@ public class Kalkulator {
 
         // Przypisanie akcji do przycisku "="
         btnEquals.addActionListener(e -> {
-            if (poleTekstowe.getText().isEmpty()) {
+            if (!poleTekstowe.getText().isEmpty()) { //Sprawdzanie, czy pole NIE jest puste
                 drugaLiczba = Double.parseDouble(poleTekstowe.getText());
                 double wynik = 0;
 
