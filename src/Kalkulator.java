@@ -7,7 +7,7 @@ public class Kalkulator {
     private static String operator = "";
 
     public static void main(String[] args) {
-        // Tworzymy okno aplikacji
+        // Tworzenie okna aplikacji
         JFrame frame = new JFrame("Kalkulator");
         frame.setSize(300, 400); // Ustawienie rozmiaru okna
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Zamknięcie aplikacji po kliknięciu "X"
@@ -133,7 +133,14 @@ public class Kalkulator {
                         }
                         break;
                 }
-                poleTekstowe.setText(String.valueOf(wynik).replace(".", ",")); // Wyświetlenie wyniku
+
+                // Sprawdzenie, czy wynik jest liczbą całkowitą
+                if (wynik == (int) wynik) {
+                    poleTekstowe.setText(String.format("%d", (int) wynik)); // Wyświetlanie jako liczba całkowita
+                } else {
+                    poleTekstowe.setText(String.format("%s", String.valueOf(wynik).replace(".", ",")));
+                    // Wyświetlanie jako liczba dziesiętna
+                }
             }
         });
 
