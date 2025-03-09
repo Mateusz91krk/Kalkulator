@@ -61,6 +61,16 @@ public class Kalkulator {
         frame.add(btnClear);
         btnClear.addActionListener(e -> poleTekstowe.setText(""));
 
+        // Tworzenie przecinka
+        JButton btnComma = new JButton(",");
+        btnComma.setBounds(90, 280, 60, 40); // "," między "0" a "="
+        frame.add(btnComma);
+        btnComma.addActionListener(e -> {
+            if (!poleTekstowe.getText().contains(",")) { // Sprawdzanie, czy nie ma już przecinka
+                poleTekstowe.setText(poleTekstowe.getText() + ",");
+            }
+        });
+
         // Teraz cyfra "0" istnieje, więc można dodać ActionListener
         for (int i = 0; i < 10; i++) {
             int numer = i; // Potrzebne do poprawnego działania w lambdzie
@@ -75,25 +85,25 @@ public class Kalkulator {
 
         // Przypisanie akcji do przycisków operacji
         operacje[0].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText());
+            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "+";
             poleTekstowe.setText("");
         });
 
         operacje[1].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText());
+            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "-";
             poleTekstowe.setText("");
         });
 
         operacje[2].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText());
+            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "*";
             poleTekstowe.setText("");
         });
 
         operacje[3].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText());
+            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "/";
             poleTekstowe.setText("");
         });
@@ -101,7 +111,7 @@ public class Kalkulator {
         // Przypisanie akcji do przycisku "="
         btnEquals.addActionListener(e -> {
             if (!poleTekstowe.getText().isEmpty()) { //Sprawdzanie, czy pole NIE jest puste
-                drugaLiczba = Double.parseDouble(poleTekstowe.getText());
+                drugaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
                 double wynik = 0;
 
                 switch (operator) {
@@ -123,7 +133,7 @@ public class Kalkulator {
                         }
                         break;
                 }
-                poleTekstowe.setText(String.valueOf(wynik)); // Wyświetlenie wyniku
+                poleTekstowe.setText(String.valueOf(wynik).replace(".", ",")); // Wyświetlenie wyniku
             }
         });
 
