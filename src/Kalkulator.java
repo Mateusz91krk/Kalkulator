@@ -23,10 +23,10 @@ public class Kalkulator {
 
         // Układ przycisków jak w klasycznym kalkulatorze
         int[][] pozycjeCyfr = {
-                {20, 180}, {90, 180}, {160, 180}, // 1, 2, 3
-                {20, 130}, {90, 130}, {160, 130}, // 4, 5, 6
-                {20, 80}, {90, 80}, {160, 80}, // 7, 8, 9
-                {20, 230} // 0 na dole, po lewej
+                {20, 230}, {90, 230}, {160, 230}, // 1, 2, 3
+                {20, 180}, {90, 180}, {160, 180}, // 4, 5, 6
+                {20, 130}, {90, 130}, {160, 130}, // 7, 8, 9
+                {20, 280} // 0 na dole, po lewej
         };
 
         // Tablica do przechowywania przycisków operacji
@@ -35,12 +35,12 @@ public class Kalkulator {
 
         // Układ przycisków operacji matematycznych
         int[][] pozycjeOperacji = {
-                {230, 80},  // "+"
-                {230, 130}, // "-"
-                {230, 180}, // "*"
-                {230, 230}  // "/"
+                {230, 130},  // "+"
+                {230, 180}, // "-"
+                {230, 230}, // "*"
+                {230, 280}  // "/"
         };
-        btnEquals.setBounds(160, 230, 60, 40); // "=" pod przyciskiem "9"
+        btnEquals.setBounds(160, 280, 60, 40); // "=" pod przyciskiem "9"
         frame.add(btnEquals);
 
         //Tworzenie i rozmieszczanie przycisków cyfr (1-9)
@@ -54,6 +54,12 @@ public class Kalkulator {
         cyfry[0] = new JButton("0");
         cyfry[0].setBounds(pozycjeCyfr[9][0], pozycjeCyfr[9][1], 60, 40); // "0" na dole, po lewej
         frame.add(cyfry[0]);
+
+        // Tworzenie przycisku "C"
+        JButton btnClear = new JButton("C");
+        btnClear.setBounds(160, 80, 120, 40); // "C" w prawym górnym rogu
+        frame.add(btnClear);
+        btnClear.addActionListener(e -> poleTekstowe.setText(""));
 
         // Teraz cyfra "0" istnieje, więc można dodać ActionListener
         for (int i = 0; i < 10; i++) {
