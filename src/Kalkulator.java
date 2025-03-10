@@ -5,6 +5,7 @@ public class Kalkulator {
     private static double pierwszaLiczba = 0;
     private static double drugaLiczba = 0;
     private static String operator = "";
+    private static boolean wpisywanieDrugiejLiczby = false;
 
     public static void main(String[] args) {
         // Tworzenie okna aplikacji
@@ -74,7 +75,14 @@ public class Kalkulator {
         // Teraz cyfra "0" istnieje, więc można dodać ActionListener
         for (int i = 0; i < 10; i++) {
             int numer = i; // Potrzebne do poprawnego działania w lambdzie
-            cyfry[i].addActionListener(e -> poleTekstowe.setText(poleTekstowe.getText() + numer));
+            cyfry[i].addActionListener(e -> {
+                if (wpisywanieDrugiejLiczby) {
+                    poleTekstowe.setText(String.valueOf(numer));
+                    wpisywanieDrugiejLiczby = false;
+                } else {
+                    poleTekstowe.setText(poleTekstowe.getText() + numer);
+                }
+            });
         }
 
         // Tworzenie i rozmieszczenie przycisków operacji matematycznych
@@ -87,25 +95,25 @@ public class Kalkulator {
         operacje[0].addActionListener(e -> {
             pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "+";
-            poleTekstowe.setText("");
+            wpisywanieDrugiejLiczby = true;
         });
 
         operacje[1].addActionListener(e -> {
             pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "-";
-            poleTekstowe.setText("");
+            wpisywanieDrugiejLiczby = true;
         });
 
         operacje[2].addActionListener(e -> {
             pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "*";
-            poleTekstowe.setText("");
+            wpisywanieDrugiejLiczby = true;
         });
 
         operacje[3].addActionListener(e -> {
             pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
             operator = "/";
-            poleTekstowe.setText("");
+            wpisywanieDrugiejLiczby = true;
         });
 
         // Przypisanie akcji do przycisku "="
