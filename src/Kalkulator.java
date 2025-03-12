@@ -93,27 +93,35 @@ public class Kalkulator {
 
         // Przypisanie akcji do przycisków operacji
         operacje[0].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
-            operator = "+";
-            wpisywanieDrugiejLiczby = true;
+            if (!poleTekstowe.getText().isEmpty() && operator.isEmpty()) {
+                pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
+                operator = "+";
+                wpisywanieDrugiejLiczby = true;
+            }
         });
 
         operacje[1].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
-            operator = "-";
-            wpisywanieDrugiejLiczby = true;
+            if (!poleTekstowe.getText().isEmpty() && operator.isEmpty()) {
+                pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
+                operator = "-";
+                wpisywanieDrugiejLiczby = true;
+            }
         });
 
         operacje[2].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
-            operator = "*";
-            wpisywanieDrugiejLiczby = true;
+            if (!poleTekstowe.getText().isEmpty() && operator.isEmpty()) {
+                pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
+                operator = "*";
+                wpisywanieDrugiejLiczby = true;
+            }
         });
 
         operacje[3].addActionListener(e -> {
-            pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
-            operator = "/";
-            wpisywanieDrugiejLiczby = true;
+            if (!poleTekstowe.getText().isEmpty() && operator.isEmpty()) {
+                pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
+                operator = "/";
+                wpisywanieDrugiejLiczby = true;
+            }
         });
 
         // Przypisanie akcji do przycisku "="
@@ -149,6 +157,9 @@ public class Kalkulator {
                     poleTekstowe.setText(String.format("%s", String.valueOf(wynik).replace(".", ",")));
                     // Wyświetlanie jako liczba dziesiętna
                 }
+
+                operator = ""; // RESETOWANIE OPERATORA
+                wpisywanieDrugiejLiczby = true; // Nowe wpisywanie
             }
         });
 
