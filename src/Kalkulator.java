@@ -58,9 +58,21 @@ public class Kalkulator {
 
         // Tworzenie przycisku "C"
         JButton btnClear = new JButton("C");
-        btnClear.setBounds(160, 80, 120, 40); // "C" w prawym górnym rogu
+        btnClear.setBounds(160, 80, 60, 40); // "C" w prawym górnym rogu
         frame.add(btnClear);
         btnClear.addActionListener(e -> poleTekstowe.setText(""));
+
+        // Tworzenie przycisku "CE"
+        JButton btnClearEntry = new JButton("CE");
+        btnClearEntry.setBounds(90, 80 ,60, 40);
+        frame.add(btnClearEntry);
+        btnClearEntry.addActionListener(e -> {
+            poleTekstowe.setText(""); // Czyszczenie pola tekstowego
+            pierwszaLiczba = 0;
+            drugaLiczba = 0;
+            operator = "";
+            wpisywanieDrugiejLiczby = false;
+        });
 
         // Tworzenie przecinka
         JButton btnComma = new JButton(",");
