@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class Kalkulator {
 
@@ -18,6 +20,100 @@ public class Kalkulator {
         JTextField poleTekstowe = new JTextField();
         poleTekstowe.setBounds(20, 20, 240, 40); // Ustawienie pozycji i rozmiaru
         frame.add(poleTekstowe); // Dodanie pola do okna
+        poleTekstowe.setEditable(false);
+
+        // Dodanie nasłuchiwania klawiatury
+        poleTekstowe.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                e.consume(); // Blokuje domyślne wpisywanie znaków
+
+                char znak = e.getKeyChar();
+
+                // Obsługa cyfr (0-9)
+                if (Character.isDigit(znak)) {
+                    if (wpisywanieDrugiejLiczby) {
+                        poleTekstowe.setText(String.valueOf(znak));
+                        wpisywanieDrugiejLiczby = false;
+                    } else {
+                        poleTekstowe.setText(poleTekstowe.getText() + znak);
+                    }
+                }
+
+                // Obsługa przecinka (",")
+                if (znak == ',') {
+                    if (poleTekstowe.getText().isEmpty()) {
+                        poleTekstowe.setText("0,"); // Jeżeli pole jest puste, wpisz "0," po wciśnięciu samego przecinka
+                    } else if (!poleTekstowe.getText().contains(",")) { // Sprawdzanie, czy przecinek już istnieje
+                        poleTekstowe.setText(poleTekstowe.getText() + ",");
+                    }
+                }
+
+                // Obsługa operatorów (+, -, *, /)
+                if (znak == '+' || znak == '-' || znak == '*' || znak == '/') {
+                    if (!poleTekstowe.getText().isEmpty() && operator.isEmpty()) {
+                        pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
+                        operator = String.valueOf(znak);
+                        wpisywanieDrugiejLiczby = true;
+                    }
+                }
+
+                // Obsługa klawisza Enter (obliczanie wyniku)
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    if (!poleTekstowe.getText().isEmpty() && !operator.isEmpty()) {
+                        drugaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
+                        double wynik = 0;
+
+                        switch (operator) {
+                            case "+":
+                                wynik = pierwszaLiczba + drugaLiczba;
+                                break;
+                            case "-":
+                                wynik = pierwszaLiczba - drugaLiczba;
+                                break;
+                            case "*":
+                                wynik = pierwszaLiczba * drugaLiczba;
+                                break;
+                            case "/":
+                                if (drugaLiczba !=0) {
+                                    wynik = pierwszaLiczba / drugaLiczba;
+                                } else {
+                                    poleTekstowe.setText("Błąd");
+                                    return;
+                                }
+                                break;
+                        }
+
+                        // Zamiana kropki na przecinek
+                        String wynikTekstowy = String.valueOf(wynik).replace(".", ",");
+
+                        // Wynik w polu tekstowym
+                        poleTekstowe.setText(wynikTekstowy);
+
+                        // Sprawdzenie, czy wynik jest liczbą całkowitą
+                        if (wynik == (int) wynik) {
+                            poleTekstowe.setText(String.format("%d", (int) wynik)); // Wyświetlanie jako liczba całkowita
+                        } else {
+                            poleTekstowe.setText(String.format("%s", String.valueOf(wynik).replace(".", ",")));
+                            // Wyświetlanie jako liczba dziesiętna
+                        }
+
+                        // Resetowanie wartości dla nowego działania
+                        pierwszaLiczba = wynik;
+                        operator = "";
+                        wpisywanieDrugiejLiczby = true;
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {}
+        });
 
         // Tablica do przechowywania przycisków
         JButton[] cyfry = new JButton[10];
@@ -47,7 +143,7 @@ public class Kalkulator {
         //Tworzenie i rozmieszczanie przycisków cyfr (1-9)
         for (int i = 1; i < 10; i++) {
             cyfry[i] = new JButton(String.valueOf(i));
-            cyfry[i].setBounds(pozycjeCyfr[i - 1][0], pozycjeCyfr[i -1][1], 60, 40);
+            cyfry[i].setBounds(pozycjeCyfr[i - 1][0], pozycjeCyfr[i - 1][1], 60, 40);
             frame.add(cyfry[i]);
         }
 
@@ -64,7 +160,7 @@ public class Kalkulator {
 
         // Tworzenie przycisku "CE"
         JButton btnClearEntry = new JButton("CE");
-        btnClearEntry.setBounds(90, 80 ,60, 40);
+        btnClearEntry.setBounds(90, 80, 60, 40);
         frame.add(btnClearEntry);
         btnClearEntry.addActionListener(e -> {
             poleTekstowe.setText(""); // Czyszczenie pola tekstowego
@@ -170,12 +266,12 @@ public class Kalkulator {
                     // Wyświetlanie jako liczba dziesiętna
                 }
 
-                operator = ""; // RESETOWANIE OPERATORA
+                operator = ""; // Resetowanie wartości dla nowego działania
                 wpisywanieDrugiejLiczby = true; // Nowe wpisywanie
             }
         });
 
-      // Wyświetlanie okna
+        // Wyświetlanie okna
         frame.setVisible(true);
     }
 }
