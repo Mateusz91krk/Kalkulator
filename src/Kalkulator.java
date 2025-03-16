@@ -8,6 +8,7 @@ public class Kalkulator {
     private static double drugaLiczba = 0;
     private static String operator = "";
     private static boolean wpisywanieDrugiejLiczby = false;
+    private static boolean zeroNaPoczatku = true;
 
     public static void main(String[] args) {
         // Tworzenie okna aplikacji
@@ -17,7 +18,7 @@ public class Kalkulator {
         frame.setLayout(null); // Włączamy domyślny układ
 
         // Tworzenie pola tekstowego
-        JTextField poleTekstowe = new JTextField();
+        JTextField poleTekstowe = new JTextField("0");
         poleTekstowe.setBounds(20, 20, 240, 40); // Ustawienie pozycji i rozmiaru
         frame.add(poleTekstowe); // Dodanie pola do okna
         poleTekstowe.setEditable(false);
@@ -37,7 +38,10 @@ public class Kalkulator {
 
                 // Obsługa cyfr (0-9)
                 if (Character.isDigit(znak)) {
-                    if (wpisywanieDrugiejLiczby) {
+                    if (zeroNaPoczatku) {
+                        poleTekstowe.setText(String.valueOf(znak));
+                        zeroNaPoczatku = false;
+                    } else if (wpisywanieDrugiejLiczby) {
                         poleTekstowe.setText(String.valueOf(znak));
                         wpisywanieDrugiejLiczby = false;
                     } else {
@@ -60,6 +64,7 @@ public class Kalkulator {
                         pierwszaLiczba = Double.parseDouble(poleTekstowe.getText().replace(",", "."));
                         operator = String.valueOf(znak);
                         wpisywanieDrugiejLiczby = true;
+                        zeroNaPoczatku = false;
                     }
                 }
 
@@ -80,7 +85,7 @@ public class Kalkulator {
                                 wynik = pierwszaLiczba * drugaLiczba;
                                 break;
                             case "/":
-                                if (drugaLiczba !=0) {
+                                if (drugaLiczba != 0) {
                                     wynik = pierwszaLiczba / drugaLiczba;
                                 } else {
                                     poleTekstowe.setText("Błąd");
@@ -107,6 +112,7 @@ public class Kalkulator {
                         pierwszaLiczba = wynik;
                         operator = "";
                         wpisywanieDrugiejLiczby = true;
+                        zeroNaPoczatku = false;
                     }
                 }
             }
@@ -175,7 +181,9 @@ public class Kalkulator {
         btnComma.setBounds(90, 280, 60, 40); // "," między "0" a "="
         frame.add(btnComma);
         btnComma.addActionListener(e -> {
-            if (!poleTekstowe.getText().contains(",")) { // Sprawdzanie, czy nie ma już przecinka
+            if (poleTekstowe.getText().isEmpty()) {
+                poleTekstowe.setText("0,");
+            } else if (!poleTekstowe.getText().contains(",")) { // Sprawdzanie, czy nie ma już przecinka
                 poleTekstowe.setText(poleTekstowe.getText() + ",");
             }
         });
@@ -184,7 +192,10 @@ public class Kalkulator {
         for (int i = 0; i < 10; i++) {
             int numer = i; // Potrzebne do poprawnego działania w lambdzie
             cyfry[i].addActionListener(e -> {
-                if (wpisywanieDrugiejLiczby) {
+                if (zeroNaPoczatku) {
+                    poleTekstowe.setText(String.valueOf(numer));
+                    zeroNaPoczatku = false;
+                } else if (wpisywanieDrugiejLiczby) {
                     poleTekstowe.setText(String.valueOf(numer));
                     wpisywanieDrugiejLiczby = false;
                 } else {
