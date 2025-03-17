@@ -115,6 +115,11 @@ public class Kalkulator {
                         zeroNaPoczatku = false;
                     }
                 }
+
+                // Obsługa Alt+F4
+                if (e.getKeyCode() == KeyEvent.VK_F4 && e.isAltDown()) {
+                    System.exit(0);
+                }
             }
 
             @Override
